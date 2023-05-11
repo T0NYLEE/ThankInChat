@@ -1,5 +1,5 @@
 <template>
-  <div class="p-4">
-    Humans
-  </div>
+	<div class="p-4">
+		Humans
+	</div>
 </template>

@@ -1,3 +1,3 @@
-export function go(url: string) {
+export function go(url: string){
 
 }
