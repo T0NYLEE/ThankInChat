@@ -29,3 +29,6 @@ coverage
 *.sw?
 
 build
+
+pnpm-lock.yaml
+package-lock.json

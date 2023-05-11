@@ -3,6 +3,12 @@ import type { RouteRecordRaw } from 'vue-router'
 import { createRouter, createWebHashHistory } from 'vue-router'
 import { setupPageGuard } from './permission'
 import { ChatLayout } from '@/views/chat/layout'
+import { AdminLayout } from '@/views/admin/layout'
+import humans from '@/views/admin/humans.vue'
+import orders from '@/views/admin/orders.vue'
+import items from '@/views/admin/items.vue'
+import templates from '@/views/admin/templates.vue'
+import bots from '@/views/admin/bots.vue'
 
 const routes: RouteRecordRaw[] = [
   {
@@ -18,7 +24,13 @@ const routes: RouteRecordRaw[] = [
       },
     ],
   },
-
+	{path:'/',component:AdminLayout,children:[
+		{path:'/humans',component:humans},
+		{path:'/orders',component:orders},
+		{path:'/items',component:items},
+		{path:'/templates',component:templates},
+		{path:'/bots',component:bots},],
+	},
   {
     path: '/404',
     name: '404',

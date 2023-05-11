@@ -30,3 +30,8 @@ coverage
 
 # Environment variables files
 /service/.env
+
+pnpm-lock.yaml
+package-lock.json
+/service/pnpm-lock.yaml
+/service/package-lock.json
