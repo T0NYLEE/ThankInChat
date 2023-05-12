@@ -8,7 +8,7 @@
     "chatgpt-web",
     "chatgpt",
     "chatbot",
-    "vue"
+    "vue3"
   ],
   "scripts": {
     "dev": "vite",
