@@ -64,3 +64,22 @@ export function fetchVerify<T>(token: string) {
     data: { token },
   })
 }
+
+export function fetchHumanALL<T>() {
+  return post<T>({
+    url: '/HumanALL',
+  })
+}
+
+export function fetchHumanFind<T>() {
+  return post<T>({
+    url: '/HumanFind',
+    data: { openid: '1'},
+  })
+}
+export function fetchHumanAdd<T>() {
+  return post<T>({
+    url: '/HumanAdd',
+    data: { openid: '3',realname:'1',nickname:'2',avatar:'4'},
+  })
+}
