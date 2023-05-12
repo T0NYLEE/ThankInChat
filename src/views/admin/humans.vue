@@ -8,18 +8,17 @@
 import{h}from 'vue'
 import{NButton,NDataTable,useMessage}from 'naive-ui'
 import type{DataTableColumns}from 'naive-ui'
-
-type Song={no:number,title:string,length:string}
+import {fetchHumanALL} from '@/api'
 
 const createColumns=({
 	play
 }:{
-	play:(row:Song)=>void
-}):DataTableColumns<Song>=>{
+	play:(row:any)=>void
+}):DataTableColumns<any>=>{
 	return [
-		{title:'No',key:'no'},
-		{title:'Title',key:'title'},
-		{title:'Length',key:'length'},
+		{title:'姓名',key:'realname'},
+		{title:'昵称',key:'nickname'},
+		{title:'头像',key:'avatar'},
 		{title:'Action',key:'actions',
 			render(row){
 				return h(
@@ -31,15 +30,11 @@ const createColumns=({
 	]
 }
 
-const data:Song[]=[
-	{no:3,title:'Wonderwall',length:'4:18'},
-	{no:4,title:"Don't Look Back in Anger",length:'4:48'},
-	{no:12,title:'Champagne Supernova',length:'7:27'}
-]
+const data:any= await fetchHumanALL()
 
 const message=useMessage()
 const columns=createColumns({
-	play(row:Song){message.info(`Play ${row.title}`)}
+	play(row:any){message.info(`Play ${row.title}`)}
 })
 const pagination=false as const
 </script>
