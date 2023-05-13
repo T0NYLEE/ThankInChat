@@ -2,7 +2,6 @@
 	<div class="p-4">
 		<h1>Humans</h1>
 		<n-data-table :columns="columns" :data="data" :pagination="pagination" :bordered="false" />
-		<!-- <n-data-table :rows="rows" :columns="columns" :pagination="pagination" :bordered="false"></n-data-table> -->
 	</div>
 </template>
 <script setup lang='ts'>

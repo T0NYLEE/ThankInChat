@@ -6,7 +6,7 @@
 <script setup lang='ts'>
 import {computed} from 'vue'
 import {NModal} from 'naive-ui'
-	const props={
+	const props=defineProps({
 		//应用唯一标识，在微信开放平台提交应用审核通过后获得
 		appid:String,
 		//应用授权作用域，拥有多个作用域用逗号（,）分隔，网页应用目前仅填写snsapi_login即可
@@ -23,7 +23,8 @@ import {NModal} from 'naive-ui'
 		self_redirect:{type:String,default:'default'},
 		// sdk的扩展字符串，但是在这里就默认了jssdk，暂时不建议修改
 		login_type:{type:String,default:'jssdk'},
-	}
+	})
+	console.log(props.appid)
 	const setSrc=computed(()=>{
 		const _url='https://open.weixin.qq.com/connect/qrconnect?appid='+props.appid
 			+'&scope='+props.scope
@@ -33,6 +34,7 @@ import {NModal} from 'naive-ui'
 			+'&style='+props.theme
 			+'&self_redirect='+props.self_redirect
 			+'&href='+props.href;
+			console.log(_url)
 		return _url;
 	})
 	const show=true;
