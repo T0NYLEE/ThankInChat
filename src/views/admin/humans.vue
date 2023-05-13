@@ -5,11 +5,10 @@
 	</div>
 </template>
 <script setup lang='ts'>
-import{ref,onMounted,h,computed}from 'vue'
+import{ref,onMounted,h}from 'vue'
 import{NButton,NDataTable,useMessage}from 'naive-ui'
 import type{DataTableColumns}from 'naive-ui'
 import {fetchHumanALL} from '@/api'
-const rows:any = ref([])
 const createColumns=({
 	play
 }:{
@@ -29,17 +28,17 @@ const createColumns=({
 		}
 	]
 }
-let data:any = computed(() => {return rows.value})
+const data:any = ref([])
 onMounted(() => {
 	geRows();
 })
 const geRows = async () => {
 	try {
 		const humans: any = await fetchHumanALL();
-		rows.value = humans
+		data.value = humans.message
 	}
 	catch (error) {
-		rows.value = error
+		console.log(error)
 	}
 }
 const message=useMessage()
