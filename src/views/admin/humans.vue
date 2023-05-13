@@ -6,7 +6,7 @@
 	</div>
 </template>
 <script setup lang='ts'>
-import{ref,onMounted,h}from 'vue'
+import{ref,onMounted,h,computed}from 'vue'
 import{NButton,NDataTable,useMessage}from 'naive-ui'
 import type{DataTableColumns}from 'naive-ui'
 import {fetchHumanALL} from '@/api'
@@ -30,16 +30,19 @@ const createColumns=({
 		}
 	]
 }
-let data:any= [
-	// {realname:3,nickname:'Wonderwall',lenavatargth:'4:18'},
-	// {realname:4,nickname:"Don't Look Back in Anger",avatar:'4:48'},
-]
-onMounted(async () => {
-	console.log(1)
-	data=await fetchHumanALL();
-	// rows.value =await fetchHumanALL();
- })
-
+let data:any = computed(() => {return rows.value})
+onMounted(() => {
+	geRows();
+})
+const geRows = async () => {
+	try {
+		const humans: any = await fetchHumanALL();
+		rows.value = humans
+	}
+	catch (error) {
+		rows.value = error
+	}
+}
 const message=useMessage()
 const columns=createColumns({
 	play(row:any){message.info(`Play ${row.title}`)}
