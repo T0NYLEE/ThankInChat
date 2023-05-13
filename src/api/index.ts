@@ -87,6 +87,6 @@ export function fetchHumanAdd<T>() {
 
 export function getQrCode<T>(uuid: string) {
   return get<T>({
-    url: `http://localhost:9112/wechat/makeChatCode?uuid=${uuid}`,
+    url: `https://thankin.com/wechat/makeChatCode?uuid=${uuid}`,
   })
 }
