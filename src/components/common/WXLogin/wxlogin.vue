@@ -6,23 +6,41 @@
 <script setup lang='ts'>
 import {ref,onMounted} from 'vue'
 import {NModal} from 'naive-ui'
-import {getQrCode} from '@/api'
+import {getQrCode,getLoginState} from '@/api'
 	const setSrc: any =ref();
-
+	let show=true;
 	onMounted(() => {
 		createQrocde();
 	})
 	const createQrocde = async () => {
-	try {
-		const ticket: any = await getQrCode('1');
-		setSrc.value=`https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=${ticket.ticket}`
+		try {
+			const uuid=guid2();
+			const ticket: any = await getQrCode(uuid);
+			setSrc.value=`https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=${ticket.ticket}`;
+			getState(uuid);
+		}
+		catch (error: any) {
+			console.log(error)
+		}
 	}
-	catch (error: any) {
-		console.log(error)
+	function guid2(){
+		let code = '';
+		for(var i=0;i<10;i++){
+    		code += parseInt((Math.random()*10).toString());
+		}
+		return code;
 	}
-}
-
-	const show=true;
+	function getState(uuid:string){
+		setInterval(async ()=>{
+			const msg: any = await getLoginState(uuid);
+			if(msg.msg=='Success'){
+				console.log(msg.data)
+				show=false;
+				clearInterval();
+			}
+		}, 1000);
+		
+	}
 </script>
 <style scoped>
 h3{margin:40px 0 0;}
