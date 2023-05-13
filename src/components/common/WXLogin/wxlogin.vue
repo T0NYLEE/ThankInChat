@@ -4,8 +4,9 @@
 	</NModal>
 </template>
 <script setup lang='ts'>
-import {computed} from 'vue'
+import {ref,onMounted,computed} from 'vue'
 import {NModal} from 'naive-ui'
+import {getQrCode} from '@/api'
 	const props=defineProps({
 		//应用唯一标识，在微信开放平台提交应用审核通过后获得
 		appid:String,
@@ -24,19 +25,33 @@ import {NModal} from 'naive-ui'
 		// sdk的扩展字符串，但是在这里就默认了jssdk，暂时不建议修改
 		login_type:{type:String,default:'jssdk'},
 	})
-	console.log(props.appid)
-	const setSrc=computed(()=>{
-		const _url='https://open.weixin.qq.com/connect/qrconnect?appid='+props.appid
-			+'&scope='+props.scope
-			+'&redirect_uri='+props.redirect_uri
-			+'&state='+props.state
-			+'&login_type='+props.login_type
-			+'&style='+props.theme
-			+'&self_redirect='+props.self_redirect
-			+'&href='+props.href;
-			console.log(_url)
-		return _url;
+const _url: any =ref();
+const setSrc=computed(()=>{
+		// const _url='https://open.weixin.qq.com/connect/qrconnect?appid='+props.appid
+		// 	+'&scope='+props.scope
+		// 	+'&redirect_uri='+props.redirect_uri
+		// 	+'&state='+props.state
+		// 	+'&login_type='+props.login_type
+		// 	+'&style='+props.theme
+		// 	+'&self_redirect='+props.self_redirect
+		// 	+'&href='+props.href;
+			return `https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=${_url.value}`;	
+		// console.log(ticket)
+		// return 'https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=gQHg7zwAAAAAAAAAAS5odHRwOi8vd2VpeGluLnFxLmNvbS9xLzAyYk1aMFlBcGxlZEQxak5ldk5BMUcAAgTpB19kAwQIBwAA ';
 	})
+	onMounted(() => {
+		createQrocde();
+	})
+	const createQrocde = async () => {
+	try {
+		const ticket: any = await getQrCode('1');
+		_url.value=ticket.ticket
+	}
+	catch (error: any) {
+		_url.value=error.ticket
+	}
+}
+
 	const show=true;
 </script>
 <style scoped>

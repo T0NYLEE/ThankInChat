@@ -1,5 +1,5 @@
 import type { AxiosProgressEvent, GenericAbortSignal } from 'axios'
-import { post } from '@/utils/request'
+import { post,get } from '@/utils/request'
 import { useAuthStore, useSettingStore } from '@/store'
 
 export function fetchChatAPI<T = any>(
@@ -52,6 +52,7 @@ export function fetchChatAPIProcess<T = any>(
   })
 }
 
+
 export function fetchSession<T>() {
   return post<T>({
     url: '/session',
@@ -81,5 +82,11 @@ export function fetchHumanAdd<T>() {
   return post<T>({
     url: '/HumanAdd',
     data: { openid: '3',realname:'1',nickname:'2',avatar:'4'},
+  })
+}
+
+export function getQrCode<T>(uuid: string) {
+  return get<T>({
+    url: `http://localhost:9112/wechat/makeChatCode?uuid=${uuid}`,
   })
 }
