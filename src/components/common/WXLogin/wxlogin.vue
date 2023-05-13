@@ -25,30 +25,18 @@ import {getQrCode} from '@/api'
 		// sdk的扩展字符串，但是在这里就默认了jssdk，暂时不建议修改
 		login_type:{type:String,default:'jssdk'},
 	})
-const _url: any =ref();
-const setSrc=computed(()=>{
-		// const _url='https://open.weixin.qq.com/connect/qrconnect?appid='+props.appid
-		// 	+'&scope='+props.scope
-		// 	+'&redirect_uri='+props.redirect_uri
-		// 	+'&state='+props.state
-		// 	+'&login_type='+props.login_type
-		// 	+'&style='+props.theme
-		// 	+'&self_redirect='+props.self_redirect
-		// 	+'&href='+props.href;
-			return `https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=${_url.value}`;	
-		// console.log(ticket)
-		// return 'https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=gQHg7zwAAAAAAAAAAS5odHRwOi8vd2VpeGluLnFxLmNvbS9xLzAyYk1aMFlBcGxlZEQxak5ldk5BMUcAAgTpB19kAwQIBwAA ';
-	})
+	const setSrc: any =ref();
+
 	onMounted(() => {
 		createQrocde();
 	})
 	const createQrocde = async () => {
 	try {
 		const ticket: any = await getQrCode('1');
-		_url.value=ticket.ticket
+		setSrc.value=`https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=${ticket.ticket}`
 	}
 	catch (error: any) {
-		_url.value=error.ticket
+		console.log(error)
 	}
 }
 
