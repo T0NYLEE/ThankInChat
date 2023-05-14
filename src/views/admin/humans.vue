@@ -28,18 +28,14 @@ const createColumns=({
 		}
 	]
 }
-const data:any = ref([])
-onMounted(() => {
-	geRows();
+const data:any=ref([])
+onMounted(()=>{
+	getHumans();
 })
-const geRows = async () => {
+async function getHumans(){
 	try {
-		const humans: any = await fetchHumanALL();
-		data.value = humans.message
-	}
-	catch (error) {
-		console.log(error)
-	}
+		data.value=(await fetchHumanALL()).data
+	}catch(e){console.error(e)}
 }
 const message=useMessage()
 const columns=createColumns({

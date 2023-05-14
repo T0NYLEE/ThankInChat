@@ -3,14 +3,14 @@ import { NConfigProvider } from 'naive-ui'
 import { NaiveProvider } from '@/components/common'
 import { useTheme } from '@/hooks/useTheme'
 import { useLanguage } from '@/hooks/useLanguage'
-import { ref} from 'vue'
+import {ref} from 'vue'
 import wxlogin from './components/common/WXLogin/wxlogin.vue'
 
 const { theme, themeOverrides } = useTheme()
 const { language } = useLanguage()
-const appid = ref('wx28fe4099f54d1edf')
-const scope = ref('snsapi_login')
-const redirect_uri = ref('https://thankin.com')
+const appid=ref('wx28fe4099f54d1edf')
+const scope=ref('snsapi_login')
+const redirect_uri=ref('https://thankin.com')
 </script>
 
 <template>
