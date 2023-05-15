@@ -78,10 +78,10 @@ export function fetchHumanFind<T>() {
     data: { openid: '1'},
   })
 }
-export function fetchHumanAdd<T>() {
+export function fetchHumanAdd<T>(human:any) {
   return post<T>({
     url: '/HumanAdd',
-    data: { openid: '3',realname:'1',nickname:'2',avatar:'4'},
+    data: human
   })
 }
 

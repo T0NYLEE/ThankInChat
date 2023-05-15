@@ -6,10 +6,12 @@
 <script setup lang='ts'>
 import {ref,onMounted} from 'vue'
 import {NModal} from 'naive-ui'
-import {getQrCode,getLoginState} from '@/api'
-	const setSrc: any =ref();
+import {getQrCode,getLoginState,fetchHumanAdd} from '@/api'
+import {ss} from '@/utils/storage'
+	const LOCAL_NAME = 'userStorage'
+	const setSrc:any=ref();
 	const show=ref(true);
-	let intervalId: any=null;
+	let intervalId:any=null;
 	onMounted(()=>{
 		createQrocde();
 	})
@@ -32,6 +34,14 @@ import {getQrCode,getLoginState} from '@/api'
 			const msg:any=await getLoginState(uuid);
 			if(msg.msg=='Success'){
 				console.log(msg.data)
+				ss.set(LOCAL_NAME, {
+					userInfo: {
+						avatar: msg.data.avatar,
+						name: msg.data.nickname,
+					},
+				})
+				await fetchHumanAdd(msg.data);
+				await getQrCode(uuid);
 				show.value=false;
 				clearInterval(intervalId);
 			}
