@@ -13,14 +13,19 @@ import {ss} from '@/utils/storage'
 	const show=ref(true);
 	let intervalId:any=null;
 	onMounted(()=>{
-		createQrocde();
+		const localSetting:any= ss.get(LOCAL_NAME)
+		if(localSetting==undefined||localSetting==null){
+			createQrocde();
+		}else{
+			show.value=false;
+		}
 	})
 	const createQrocde=async()=>{
 		try{
 			const uuid=guid2();
 			const ticket:any=await getQrCode(uuid);
 			setSrc.value=`https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=${ticket.ticket}`;
-			getState('75bf0717-c727-4476-9746');
+			getState(uuid);
 		}catch(e){console.error(e)}
 	}
 	function guid2(){
@@ -44,6 +49,7 @@ import {ss} from '@/utils/storage'
 				await getQrCode(uuid);
 				show.value=false;
 				clearInterval(intervalId);
+				window.location.reload()
 			}
 		}, 3000);
 		
