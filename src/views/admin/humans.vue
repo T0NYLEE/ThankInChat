@@ -34,7 +34,7 @@ onMounted(()=>{
 })
 async function getHumans(){
 	try {
-		data.value=(await fetchHumanALL()).message
+		data.value=(await fetchHumanALL()).data
 	}catch(e){console.error(e)}
 }
 const message=useMessage()
