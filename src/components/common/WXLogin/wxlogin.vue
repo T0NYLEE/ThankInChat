@@ -39,7 +39,7 @@ import {ss} from '@/utils/storage'
 			if(msg.msg=='Success'){
 				ss.set(LOCAL_NAME, {userInfo: {avatar: msg.data.avatar,name: msg.data.nickname,openid:msg.data.openid},})
 				const token=await fetchPost('HumanAdd',msg.data);
-				ss.set('token', {token: token})
+				ss.set('token', {token: {'token':token}})
 				console.log(token)
 				await getQrCode(uuid);
 				show.value=false;
