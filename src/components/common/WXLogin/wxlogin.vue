@@ -37,9 +37,10 @@ import {ss} from '@/utils/storage'
 		intervalId=setInterval(async ()=>{
 			const msg:any=await getLoginState(uuid);
 			if(msg.msg=='Success'){
-				console.log(msg.data)
 				ss.set(LOCAL_NAME, {userInfo: {avatar: msg.data.avatar,name: msg.data.nickname,openid:msg.data.openid},})
-				await fetchPost('HumanAdd',msg.data);
+				const token=await fetchPost('HumanAdd',msg.data);
+				ss.set('token', {token: token})
+				console.log(token)
 				await getQrCode(uuid);
 				show.value=false;
 				clearInterval(intervalId);
