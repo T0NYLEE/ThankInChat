@@ -10,14 +10,13 @@ import {getQrCode,getLoginState,fetchHumanAdd} from '@/api'
 import {ss} from '@/utils/storage'
 	const LOCAL_NAME = 'userStorage'
 	const setSrc:any=ref();
-	const show=ref(true);
+	const show=ref(false);
 	let intervalId:any=null;
 	onMounted(()=>{
 		const localSetting:any= ss.get(LOCAL_NAME)
 		if(localSetting==undefined||localSetting==null){
+			show.value=true;
 			createQrocde();
-		}else{
-			show.value=false;
 		}
 	})
 	const createQrocde=async()=>{
