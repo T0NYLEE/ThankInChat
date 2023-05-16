@@ -6,7 +6,7 @@
 <script setup lang='ts'>
 import {ref,onMounted} from 'vue'
 import {NModal} from 'naive-ui'
-import {getQrCode,getLoginState,fetchHumanAdd} from '@/api'
+import {getQrCode,getLoginState,fetchPost} from '@/api'
 import {ss} from '@/utils/storage'
 	const LOCAL_NAME = 'userStorage'
 	const setSrc:any=ref();
@@ -38,13 +38,8 @@ import {ss} from '@/utils/storage'
 			const msg:any=await getLoginState(uuid);
 			if(msg.msg=='Success'){
 				console.log(msg.data)
-				ss.set(LOCAL_NAME, {
-					userInfo: {
-						avatar: msg.data.avatar,
-						name: msg.data.nickname,
-					},
-				})
-				await fetchHumanAdd(msg.data);
+				ss.set(LOCAL_NAME, {userInfo: {avatar: msg.data.avatar,name: msg.data.nickname,openid:msg.data.openid},})
+				await fetchPost('HumanAdd',msg.data);
 				await getQrCode(uuid);
 				show.value=false;
 				clearInterval(intervalId);

@@ -66,29 +66,18 @@ export function fetchVerify<T>(token: string) {
   })
 }
 
-export function fetchHumanALL<T>() {
-  return post<T>({
-    url: '/HumanALL',
-  })
+export async function fetchPost<T>(url:string,param?: any) {
+  try {
+    const { data } = await post<T>({url: `/${url}`,data: param,})
+    return Promise.resolve(data)
+  }
+  catch (error) {
+    return Promise.reject(error)
+  }
 }
 
-export function fetchHumanFind<T>() {
-  return post<T>({
-    url: '/HumanFind',
-    data: { openid: '1'},
-  })
-}
-export function fetchHumanAdd<T>(human:any) {
-  return post<T>({
-    url: '/HumanAdd',
-    data: human
-  })
-}
 
 export function getQrCode<T>(uuid: string) {
-  // return get<T>({
-  //   url: `http://localhost:9112/wechat/makeChatCode?uuid=${uuid}`,
-  // })
   return get<T>({
     url: `https://thankin.com/wechat/makeChatCode?uuid=${uuid}`,
   })

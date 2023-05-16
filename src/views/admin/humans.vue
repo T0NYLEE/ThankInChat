@@ -8,7 +8,7 @@
 import{ref,onMounted,h}from 'vue'
 import{NButton,NDataTable,useMessage}from 'naive-ui'
 import type{DataTableColumns}from 'naive-ui'
-import {fetchHumanALL} from '@/api'
+import {fetchPost} from '@/api'
 const createColumns=({
 	play
 }:{
@@ -34,7 +34,7 @@ onMounted(()=>{
 })
 async function getHumans(){
 	try {
-		data.value=(await fetchHumanALL()).data
+		data.value=await fetchPost('HumanALL')
 	}catch(e){console.error(e)}
 }
 const message=useMessage()

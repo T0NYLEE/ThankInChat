@@ -9,6 +9,8 @@ import orders from '@/views/admin/orders.vue'
 import items from '@/views/admin/items.vue'
 import templates from '@/views/admin/templates.vue'
 import bots from '@/views/admin/bots.vue'
+import {ss} from '@/utils/storage'
+import {fetchPost} from '@/api'
 
 const routes: RouteRecordRaw[] = [
   {
@@ -30,6 +32,15 @@ const routes: RouteRecordRaw[] = [
 		{path:'/items',component:items},
 		{path:'/templates',component:templates},
 		{path:'/bots',component:bots},],
+    beforeEnter: async (to, from) => {
+      const LOCAL_NAME = 'userStorage'
+      const localSetting:any= ss.get(LOCAL_NAME)
+      if(localSetting){
+        const openid=localSetting.userInfo.openid;
+        return await fetchPost('HumanRole',{openid:openid});
+      }
+      return false
+    },
 	},
   {
     path: '/404',
