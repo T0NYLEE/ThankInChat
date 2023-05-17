@@ -1,11 +1,12 @@
 import { ss } from '@/utils/storage'
 
-const LOCAL_NAME = 'userStorage'
+const LOCAL_NAME = 'userInfo'
 
 export interface UserInfo {
   avatar: string
   name: string
   description: string
+  token: string
 }
 
 export interface UserState {
@@ -18,6 +19,7 @@ export function defaultSetting(): UserState {
       avatar: 'https://raw.githubusercontent.com/Chanzhaoyu/chatgpt-web/main/src/assets/avatar.jpg',
       name: 'ThankIn',
       description: 'Star on <a href="https://github.com/T0NYLEE/ThankInChat" class="text-blue-500" target="_blank" >GitHub</a>',
+	  token: '',
     },
   }
 }

@@ -1,9 +1,3 @@
-https://github.com/logaretm/vee-validate
-用户登录：
-	微信扫码登陆，并获取用户昵称与头像，显示在左下角https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1&id=open1419316505&token=&lang=zh_CN
-	上面的方式还需要另外注册账号，提交网站应用审核等步骤。使用现有公众号可以省去该步骤。https://developers.weixin.qq.com/doc/offiaccount/OA_Web_Apps/Wechat_webpage_authorization.html
-	session通过自带的store/modules/auth实现
-
 # ChatGPT Web
 
 > 声明：此项目只发布于 GitHub，基于 MIT 协议，免费且作为开源学习使用。并且不会有任何形式的卖号、付费服务、讨论群、讨论组等行为。谨防受骗。

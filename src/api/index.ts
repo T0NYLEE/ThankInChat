@@ -76,15 +76,9 @@ export async function fetchPost<T>(url:string,param?: any) {
   }
 }
 
-
 export function getQrCode<T>(uuid: string) {
-  return get<T>({
-    url: `https://thankin.com/wechat/makeChatCode?uuid=${uuid}`,
-  })
+	return get<T>({url: `https://thankin.com/wechat/makeChatCode?uuid=${uuid}`,})
 }
-
-export function getLoginState<T>(uuid: string) {
-  return get<T>({
-    url: `https://thankin.com/wechat/loginState?uuid=${uuid}`,
-  })
+export function getLoginState<T>(uuid:string){
+	return get<T>({url:`https://thankin.com/wechat/loginState?uuid=${uuid}`,})
 }

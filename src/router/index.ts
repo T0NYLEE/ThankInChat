@@ -32,15 +32,14 @@ const routes: RouteRecordRaw[] = [
 		{path:'/items',component:items},
 		{path:'/templates',component:templates},
 		{path:'/bots',component:bots},],
-    beforeEnter: async (to, from) => {
-      const LOCAL_NAME = 'userStorage'
-      const localSetting:any= ss.get(LOCAL_NAME)
-      if(localSetting){
-        const openid=localSetting.userInfo.openid;
-        return await fetchPost('HumanRole',{openid:openid});
-      }
-      return false
-    },
+		beforeEnter: async (to,from) => {
+			//const user:any=window.localStorage.getItem('user');
+			//if(user){
+			//	const openid=user.openid;
+			//	return await fetchPost('HumanRole',{openid: openid});
+			//}
+			//return false
+		},
 	},
   {
     path: '/404',

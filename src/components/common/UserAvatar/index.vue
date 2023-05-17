@@ -8,16 +8,17 @@ import { isString } from '@/utils/is'
 const userStore = useUserStore()
 
 const userInfo = computed(() => userStore.userInfo)
+const user=JSON.parse(window.localStorage.getItem('user') as string)||{avatar:'',name:'',openid:'',token:''}
 </script>
 
 <template>
   <div class="flex items-center overflow-hidden">
     <div class="w-10 h-10 overflow-hidden rounded-full shrink-0">
-      <template v-if="isString(userInfo.avatar) && userInfo.avatar.length > 0">
+      <template v-if="isString(user.avatar) && user.avatar.length > 0">
         <NAvatar
           size="large"
           round
-          :src="userInfo.avatar"
+          :src="user.avatar"
           :fallback-src="defaultAvatar"
         />
       </template>
@@ -27,12 +28,12 @@ const userInfo = computed(() => userStore.userInfo)
     </div>
     <div class="flex-1 min-w-0 ml-2">
       <h2 class="overflow-hidden font-bold text-md text-ellipsis whitespace-nowrap">
-        {{ userInfo.name ?? 'ChenZhaoYu' }}
+        {{ user.name ?? 'ChenZhaoYu' }}
       </h2>
       <p class="overflow-hidden text-xs text-gray-500 text-ellipsis whitespace-nowrap">
         <span
-          v-if="isString(userInfo.description) && userInfo.description !== ''"
-          v-html="userInfo.description"
+          v-if="isString(user.description) && user.description !== ''"
+          v-html="user.description"
         />
       </p>
     </div>

@@ -7,63 +7,65 @@
 import{ref,onMounted}from 'vue'
 import{NModal}from 'naive-ui'
 import{getQrCode,getLoginState,fetchPost}from '@/api'
-import{ss}from '@/utils/storage'
-import {useAuthStoreWithout} from '@/store/modules/auth'
 import jwt_decode from 'jwt-decode'
+import * as aa from '@/utils/aa'
+import type {UserInfo} from '@/store/modules/user/helper'
 
-	const LOCAL_NAME='userStorage'
-	const setSrc:any=ref();
-	const show=ref(false);
-	const authStore = useAuthStoreWithout()
-	let intervalId:any=null;
-	onMounted(()=>{
-		if(authStore.token){
-			console.log(jwt_decode(authStore.token))
-			const { exp } = jwt_decode(authStore.token)
-			if (Date.now() < exp * 1000) {
-
-			} else {
-				authStore.removeToken();
-				ss.remove(LOCAL_NAME);
-			}
-		}
-		const localSetting:any=ss.get(LOCAL_NAME)
-		if(localSetting==undefined||localSetting==null){
-			show.value=true;
-			createQrocde();
+const setSrc:any=ref();
+const show=ref(false);
+let intervalId:any=null;
+const user:UserInfo=JSON.parse(window.localStorage.getItem('user') as string)||{avatar:'',name:'',openid:'',token:''}
+onMounted(()=>{
+	if(aa.ise(user.token)){//未登录
+		show.value=true;
+		createQrocde();
+		return;
+	}else{//已登录
+		const {exp}=jwt_decode(user.token) as {exp:number,openid:string}
+		if(exp*1000<Date.now()){//token过期
+			window.localStorage.removeItem('user');
 			window.location.reload();
 		}
-	})
-	const createQrocde=async()=>{
+	}
+	//if(authStore.token){
+	//	console.log(jwt_decode(authStore.token))
+	//	const {exp}=jwt_decode(authStore.token) as {exp:number,openid:string}
+	//	if (Date.now()<exp*1000) {
+	//	}else{
+	//		authStore.removeToken();
+	//		ss.remove(LOCAL_NAME);
+	//	}
+	//}
+	//const localSetting:any=ss.get(LOCAL_NAME)
+	//if(localSetting==undefined||localSetting==null){
+	//	show.value=true;
+	//	createQrocde();
+	//	//window.location.reload();
+	//}
+})
+const createQrocde=async()=>{
+	try{
+		const uuid=aa.uuid();
+		const ticket:any=await getQrCode(uuid);
+		setSrc.value=`https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=${ticket.ticket}`;
+		getState(uuid);
+	}catch(e){console.error(e)}
+}
+
+function getState(uuid:string){
+	intervalId=setInterval(async()=>{
 		try{
-			const uuid=guid2();
-			const ticket:any=await getQrCode(uuid);
-			setSrc.value=`https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=${ticket.ticket}`;
-			getState(uuid);
-		}catch(e){console.error(e)}
-	}
-	function guid2(){
-		return 'xxxxxxxx-xxxx-4xxx-yxxx'.replace(/[xy]/g,function(c){
-			const r=Math.random()*16|0,v=c==='x'?r:(r&0x3|0x8);
-			return v.toString(16);
-		});
-	}
-	function getState(uuid:string){
-		intervalId=setInterval(async ()=>{
 			const msg:any=await getLoginState(uuid);
 			if(msg.msg=='Success'){
-				ss.set(LOCAL_NAME,{userInfo:{avatar:msg.data.avatar,name:msg.data.nickname,openid:msg.data.openid},})
 				const token:string=await fetchPost('HumanLogin',msg.data);
-				authStore.setToken(token)
-				await authStore.getSession()
-				await getQrCode(uuid);
+				window.localStorage.setItem('user',JSON.stringify({avatar:msg.data.avatar,name:msg.data.nickname,openid:msg.data.openid,token:token}))
 				show.value=false;
 				clearInterval(intervalId);
 				window.location.reload()
 			}
-		},3000);
-
-	}
+		}catch(e){}
+	},3000);
+}
 </script>
 <style scoped>
 h3{margin:40px 0 0;}
