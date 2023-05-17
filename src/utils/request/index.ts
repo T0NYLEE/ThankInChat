@@ -46,6 +46,13 @@ function http<T = any>(
 
   const params = Object.assign(typeof data === 'function' ? data() : data ?? {}, {})
 
+	//header添加token
+	const user=localStorage.getItem('user')
+	if(user){
+		const token=JSON.parse(user).token
+		headers = Object.assign(headers ?? {}, { Authorization: `Bearer ${token}` })
+	}
+
   return method === 'GET'
     ? request.get(url, { params, signal, onDownloadProgress }).then(successHandler, failHandler)
     : request.post(url, params, { headers, signal, onDownloadProgress }).then(successHandler, failHandler)
