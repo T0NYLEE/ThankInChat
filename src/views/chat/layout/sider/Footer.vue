@@ -2,9 +2,13 @@
 import { defineAsyncComponent, ref } from 'vue'
 import { HoverButton, SvgIcon, UserAvatar } from '@/components/common'
 
-const Setting = defineAsyncComponent(() => import('@/components/common/Setting/index.vue'))
-
-const show = ref(false)
+//const Setting = defineAsyncComponent(() => import('@/components/common/Setting/index.vue'))
+//const show = ref(false)
+function logout(){
+	if(confirm('确定要退出登录吗？')===false)return
+	window.localStorage.removeItem('user')
+	window.location.reload()
+}
 </script>
 
 <template>
@@ -13,12 +17,12 @@ const show = ref(false)
       <UserAvatar />
     </div>
 
-    <HoverButton @click="show = true">
+    <HoverButton @click="logout">
       <span class="text-xl text-[#4f555e] dark:text-white">
-        <SvgIcon icon="ri:settings-4-line" />
+        <SvgIcon icon="solar:logout-3-line-duotone" />
       </span>
     </HoverButton>
 
-    <Setting v-if="show" v-model:visible="show" />
+    <!--<Setting v-if="show" v-model:visible="show" />-->
   </footer>
 </template>
