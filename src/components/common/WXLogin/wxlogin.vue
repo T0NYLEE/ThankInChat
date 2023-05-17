@@ -8,8 +8,8 @@ import{ref,onMounted}from 'vue'
 import{NModal}from 'naive-ui'
 import{getQrCode,getLoginState,fetchPost}from '@/api'
 import{ss}from '@/utils/storage'
-import {useAuthStore} from '@/store'
 import {useAuthStoreWithout} from '@/store/modules/auth'
+import jwt_decode from 'jwt-decode'
 
 	const LOCAL_NAME='userStorage'
 	const setSrc:any=ref();
@@ -17,10 +17,21 @@ import {useAuthStoreWithout} from '@/store/modules/auth'
 	const authStore = useAuthStoreWithout()
 	let intervalId:any=null;
 	onMounted(()=>{
+		if(authStore.token){
+			console.log(jwt_decode(authStore.token))
+			const { exp } = jwt_decode(authStore.token)
+			if (Date.now() < exp * 1000) {
+
+			} else {
+				authStore.removeToken();
+				ss.remove(LOCAL_NAME);
+			}
+		}
 		const localSetting:any=ss.get(LOCAL_NAME)
 		if(localSetting==undefined||localSetting==null){
 			show.value=true;
 			createQrocde();
+			window.location.reload();
 		}
 	})
 	const createQrocde=async()=>{
@@ -43,7 +54,7 @@ import {useAuthStoreWithout} from '@/store/modules/auth'
 			if(msg.msg=='Success'){
 				ss.set(LOCAL_NAME,{userInfo:{avatar:msg.data.avatar,name:msg.data.nickname,openid:msg.data.openid},})
 				const token:string=await fetchPost('HumanLogin',msg.data);
-				useAuthStore().setToken(token)
+				authStore.setToken(token)
 				await authStore.getSession()
 				await getQrCode(uuid);
 				show.value=false;
