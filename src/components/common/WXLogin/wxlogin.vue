@@ -8,9 +8,13 @@ import{ref,onMounted}from 'vue'
 import{NModal}from 'naive-ui'
 import{getQrCode,getLoginState,fetchPost}from '@/api'
 import{ss}from '@/utils/storage'
+import {useAuthStore} from '@/store'
+import {useAuthStoreWithout} from '@/store/modules/auth'
+
 	const LOCAL_NAME='userStorage'
 	const setSrc:any=ref();
 	const show=ref(false);
+	const authStore = useAuthStoreWithout()
 	let intervalId:any=null;
 	onMounted(()=>{
 		const localSetting:any=ss.get(LOCAL_NAME)
@@ -38,9 +42,9 @@ import{ss}from '@/utils/storage'
 			const msg:any=await getLoginState(uuid);
 			if(msg.msg=='Success'){
 				ss.set(LOCAL_NAME,{userInfo:{avatar:msg.data.avatar,name:msg.data.nickname,openid:msg.data.openid},})
-				const token=await fetchPost('HumanAdd',msg.data);
-				ss.set('token',{token:{'token':token}})
-				console.log(token)
+				const token:string=await fetchPost('HumanLogin',msg.data);
+				useAuthStore().setToken(token)
+				await authStore.getSession()
 				await getQrCode(uuid);
 				show.value=false;
 				clearInterval(intervalId);

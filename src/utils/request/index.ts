@@ -1,7 +1,6 @@
 import type { AxiosProgressEvent, AxiosResponse, GenericAbortSignal } from 'axios'
 import request from './axios'
 import { useAuthStore } from '@/store'
-import {ss} from '@/utils/storage'
 export interface HttpOption {
   url: string
   data?: any
@@ -46,11 +45,6 @@ function http<T = any>(
   method = method || 'GET'
 
   const params = Object.assign(typeof data === 'function' ? data() : data ?? {}, {})
-  const tokenSetting=ss.get('token')
-  if(tokenSetting){
-    const token=tokenSetting.token.token;
-    request.defaults.headers.common['Authorization'] = `Bearer ${token}`
-  }
 
   return method === 'GET'
     ? request.get(url, { params, signal, onDownloadProgress }).then(successHandler, failHandler)
