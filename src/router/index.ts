@@ -33,12 +33,12 @@ const routes: RouteRecordRaw[] = [
 		{path:'/templates',component:templates},
 		{path:'/bots',component:bots},],
 		beforeEnter: async (to,from) => {
-			//const user:any=window.localStorage.getItem('user');
-			//if(user){
-			//	const openid=user.openid;
-			//	return await fetchPost('HumanRole',{openid: openid});
-			//}
-			//return false
+			const user:any=window.localStorage.getItem('user');
+			if(user){
+				const openid=JSON.parse(user).openid;
+				return await fetchPost('HumanRole',{openid: openid});
+			}
+			return false
 		},
 	},
   {
