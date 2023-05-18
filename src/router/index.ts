@@ -66,7 +66,7 @@ export const router = createRouter({
   scrollBehavior: () => ({ left: 0, top: 0 }),
 })
 
-setupPageGuard(router)
+// setupPageGuard(router)
 
 export async function setupRouter(app: App) {
   app.use(router)
